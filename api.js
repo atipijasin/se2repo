@@ -1,17 +1,32 @@
 const express = require('express')
+const bodyParser = require("body-parser");
+
 const app = express()
 const PORT = process.env.PORT || 3000
  
-var courses_offered = [{id: 21, name: 'HCI'},
-{id: 28, name:'sweng'}]
- 
- 
-app.get('/', (req, res) => res.send('<h1>It works!</h1>This is the default web page for this server. <br><br> The web server software is running but no content has been added, yet.'))
-// app.get('/', (req, res) => res.redirect('https://trentose2.herokuapp.com'))
- 
-app.get('/courses', (req, res) => {
-   res.json(courses_offered)
-})
 
 
+/** bodyParser.urlencoded(options)
+ * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
+ * and exposes the resulting object (containing the keys and values) on req.body
+ */
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+/**bodyParser.json(options)
+ * Parses the text as JSON and exposes the resulting object on req.body.
+ */
+app.use(bodyParser.json());
+
+app.get("/", function (req, res)){
+    res.sendFile('views/index.html', {root: __dirname })
+}
+
+app.post("/sunset", function (req, res) {
+    console.log(req.body.city)
+});
+app.post("/sunrise", function (req, res) {
+    console.log(req.body.city)
+});
 app.listen(PORT, () => console.log('Example app listening on port'+ PORT))
