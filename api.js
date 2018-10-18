@@ -1,32 +1,54 @@
 const express = require('express')
-const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
+
+const mapquest_url = "http://www.mapquestapi.com/geocoding/v1/address?key=C3UNnftATS3OclId4DwyXJYOzLKsXq61&location="
+const sun_url = "https://api.sunrise-sunset.org/json?"
 
 const app = express()
 const PORT = process.env.PORT || 3000
- 
 
+async function getLocation(url) {
+    try {
+        const response = await fetch(url);
+        const json = await response.json();
+        console.log(json);
+        return json;
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-/** bodyParser.urlencoded(options)
- * Parses the text as URL encoded data (which is how browsers tend to send form data from regular forms set to POST)
- * and exposes the resulting object (containing the keys and values) on req.body
- */
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+async function getSunriseSunsetByLatLng(url) {
+    try {
+        const response = await fetch(url);
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.log(error);
+    }
+};
 
-/**bodyParser.json(options)
- * Parses the text as JSON and exposes the resulting object on req.body.
- */
-app.use(bodyParser.json());
+app.get("/json", async function (req, res) {
+    try {
+        const mapquest_json = await getLocation(mapquest_url + req.query.city);
 
-app.get("/", function (req, res)){
-    res.sendFile('views/index.html', {root: __dirname })
-}
+        const lat = mapquest_json.results[0].locations[0].latLng.lat;
+        const lng = mapquest_json.results[0].locations[0].latLng.lng;
 
-app.post("/sunset", function (req, res) {
-    console.log(req.body.city)
+        const sun_json = await getSunriseSunsetByLatLng(sun_url + "lat=" + lat + "&lng=" + lng);
+        res.send(sun_json);
+
+    } catch (error) {
+        console.log(error);
+    }
 });
-app.post("/sunrise", function (req, res) {
-    console.log(req.body.city)
+
+app.get("/", async function (req, res) {
+    try {
+        res.send("Usage: localhost:3000/json?city=CITY");
+    } catch (error) {
+        console.log(error);
+    }
 });
-app.listen(PORT, () => console.log('Example app listening on port'+ PORT))
+
+app.listen(PORT, () => console.log('Sunrise-Sunset app listening on port' + PORT))
