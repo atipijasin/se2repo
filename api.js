@@ -45,7 +45,7 @@ app.get("/json", async function (req, res) {
 
 app.get("/", async function (req, res) {
     try {
-        res.send("Usage: localhost:3000/json?city=CITY");
+        res.send("Usage: /json?city=CITY");
     } catch (error) {
         console.log(error);
     }
