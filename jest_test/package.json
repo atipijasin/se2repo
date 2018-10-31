@@ -1,0 +1,30 @@
+{
+    "name": "se2repo",
+    "version": "1.0.0",
+    "description": "Heroku application",
+    "main": "index.js",
+    "scripts": {
+      "start": "node api.js",
+      "test": "jest"
+    },
+    "jest": {
+      "verbose": true,
+      "collectCoverage": true
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/atipij/se2repo.git"
+    },
+    "author": "Jasin",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/atipij/se2repo/issues"
+    },
+    "homepage": "https://github.com/atipij/se2repo#readme",
+    "dependencies": {
+      "body-parser": "^1.18.3",
+      "express": "^4.16.4",
+      "node-fetch": "^2.2.0"
+    }  
+  }
+  
