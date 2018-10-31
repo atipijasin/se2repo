@@ -1,1 +1,0 @@
-web: cd jest_test && npm start
