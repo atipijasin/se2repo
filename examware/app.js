@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const assignments = require('./assignments.js')
 
 // check
+app.get('/', (req, res) => {
+    res.json({ msg: 'This is working' });
+});
 app.get('/v1/', (req, res) => {
     res.json({ msg: 'This is working' });
 });

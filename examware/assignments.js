@@ -8,8 +8,17 @@ const postAssignment = (req, res) => {
         assignmentResult: req.body.assignmentResult
     };
 
-    db.push(assignment);
-    res.status(201).json(assignment);
+    if (typeof (assignment.taskId) !== 'string'
+        || typeof (assignment.assignmentId) !== 'string'
+        || typeof (assignment.workedId) !== 'string'
+        || typeof (assignment.assignmentResult) === 'undefined') {
+        res.status(400).end();
+        return 'Assignment not found';
+    } else {
+        db.push(assignment);
+        res.status(201).json(assignment);
+        return assignment;
+    }
 }
 
 const getAssignment = (req, res) => {
@@ -17,6 +26,7 @@ const getAssignment = (req, res) => {
     for (i = 0; i < db.length; i++) {
         if (db[i].assignmentId == req.params.assignmentId) {
             res.status(200).json(db[i]);
+            return;
         }
     }
     res.sendStatus(404);
@@ -35,6 +45,7 @@ const putAssignment = (req, res) => {
         if (db[i].assignmentId == req.params.assignmentId) {
             db[i] = assignment;
             res.sendStatus(200);
+            return;
         }
     }
     res.sendStatus(404);
@@ -46,6 +57,7 @@ const deleteAssignment = (req, res) => {
         if (db[i].assignmentId == req.params.assignmentId) {
             db.splice(i, 1);
             res.sendStatus(200);
+            return;
         }
     }
     res.sendStatus(404);
