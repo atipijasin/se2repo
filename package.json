@@ -4,8 +4,8 @@
   "description": "Heroku application",
   "main": "index.js",
   "scripts": {
-    "start": "node api.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node examware/server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "node-fetch": "^2.2.0"
+    "jest": "^23.6.0",
+    "node-fetch": "^2.3.0"
   }
 }

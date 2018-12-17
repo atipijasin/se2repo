@@ -1,0 +1,95 @@
+swagger: "2.0"
+info:
+  description: "This is an examware that allows workers to submit assignments"
+  version: "1.0.0"
+  title: "Examware"
+host: "se2repo.herokuapp.com"
+basePath: "/v1"
+tags:
+- name: "Assignment"
+  description: "The main object"
+schemes:
+- "https"
+- "http"
+paths:
+  /assignments:
+    post:
+      tags:
+      - "assignment"
+      summary: "Submit a new assignment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Assignemnt object that a worker can submit"
+        required: true
+        schema:
+          $ref: "#/definitions/Assignment"
+      responses:
+        201:
+          description: "Successfully created assignment submission"
+  /assignments/{assignmentId}:
+    parameters:
+    - name: "assignmentId"
+      in: "path"
+      required: true
+      type: "string"
+      description: "ID of the assignment to perform the operation on"
+    get:
+      tags:
+      - "assignment"
+      summary: "Get assignment by ID"
+      description: "Returns a single assignment"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "assignment not found"
+    put:
+      tags:
+      - "assignment"
+      summary: "Update assignment"
+      description: "Updates a single assignment"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated assignment object"
+        required: true
+        schema:
+          $ref: '#/definitions/Assignment'
+      responses:
+        200:
+          description: "Successfuly updated assignment"
+        404:
+          description: "Assignment not found"
+    delete:
+      tags:
+      - "assignment"
+      summary: "Delete assignment"
+      description: "Deletes a single assignment"
+      produces:
+      - "application/json"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+definitions:
+  Assignment:
+    type: "object"
+    properties:
+      taskId:
+        type: "string"
+      assignmentId:
+        type: "string"
+      workerId:
+        type: "string"
+      assignmentResult:
+        type: "string"
